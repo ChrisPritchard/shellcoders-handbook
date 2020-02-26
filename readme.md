@@ -2,7 +2,7 @@
 
 The stuff I put together (examples, experimentation) while working through the [Shellcoder's Handbook](https://www.amazon.com/Shellcoders-Handbook-Discovering-Exploiting-Security/dp/047008023X/ref=sr_1_1) (Note: while the link is for amazon, I actually got the book via the Cybersecurity 2020 bundle on Humble Bundle for $1.50 :D )
 
-My dev machine for this stuff was primarily WSL2 on Windows 10 running an Ubuntu dist, for those interested. And as an editor I used VS Code - interestingly, I used VS Code from windows, with a terminal window using bash in the same folder to compile projects, use GDB etc. What a world we live in xD
+My dev machine for this stuff was primarily WSL2 on Windows 10 running an Ubuntu dist (18.04.4 LTS), for those interested. And as an editor I used VS Code - interestingly, I used VS Code from Windows, with a terminal window using bash in the same folder to compile projects, use GDB etc. What a world we live in xD
 
 ## Building 32-bit exploitable programs on WSL2
 
@@ -35,3 +35,23 @@ sudo apt install gcc:i386
 ```
 
 Thats it.
+
+## Compiling to exploit
+
+To compile 32 bit programs so that the samples work properly, or at least so I don't need to do them on hard difficulty, I need to turn off all the protections add to prevent precisely the stuff the book talks about.
+
+These are:
+
+- stack protection, which prevents 'stack smashing'
+- position independent code
+- address space layout protection
+
+And I need to compile 32 bit rather than the default 64 bit.
+
+Most of the above can be done on the command line with gcc/cc, but first to turn off ASLR you need to modify a file in your distro / WSL instance: `echo 0 | sudo tee /proc/sys/kernel/randomize_va_space`
+
+Once thats done, to compile the samples I typically used a command like:
+
+```bash
+cc -mpreferred-stack-boundary=2 -fno-stack-protector -fno-pie -ggdb -m32 code-to-compile.c
+```
