@@ -12,6 +12,16 @@ I could compile to 64 and see where things are at, but I wouldn't mind getting f
 
 Fortunately, while WSL1 was sort of 'emulated linux', WSL2 is actual linux running in a VM system. Meaning that I should be able to get it to run 32 bit and even turn off all the protections like ASLR that make the samples not work.
 
+Just to reiterate, on my WSL2 bash, `lsb_release -a` returns:
+
+```bash
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.4 LTS
+Release:        18.04
+Codename:       bionic
+```
+
 ### QEMU for 32 bit
 
 [QEMU](https://en.wikipedia.org/wiki/QEMU) is, ironically, basically to linux what WSL1 was to windows: an emulator. But it allows me to run and even debug 32 bit executables, so its fine. The performance doesn't matter for this book. The following instructions were sourced from [this issue comment](https://github.com/microsoft/wsl/issues/2468#issuecomment-374904520):
